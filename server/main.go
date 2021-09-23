@@ -28,12 +28,12 @@ func main() {
 
 	ctx, cancel := context.WithCancel(context.Background())
 
-	addr, err := net.ResolveTCPAddr("tcp4", fmt.Sprintf(":%s", port))
+	addr, err := net.ResolveTCPAddr("tcp", fmt.Sprintf(":%s", port))
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	l, err := net.ListenTCP("tcp4", addr)
+	l, err := net.ListenTCP("tcp", addr)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -75,6 +75,10 @@ func cmdHandler(c *net.TCPConn, userId string, db *map[string]*net.TCPConn, ctx 
 		in, err := bufio.NewReader(c).ReadString('\n')
 		if err != nil {
 			fmt.Println("err bufio.NewReader(c).ReadString('\n'): ", err)
+			if err == io.EOF {
+				c.Close()
+				return
+			}
 		}
 		in = strings.TrimSpace(in)
 
