@@ -1,4 +1,5 @@
 # tcpChat
+A chat server and client written in pure Go.
 
 ### tldr;
 Run Server, Run at least a pair of Clients and follow the instructions.
